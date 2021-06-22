@@ -11,7 +11,6 @@ from chia.types.peer_info import PeerInfo
 from chia.util.block_tools import test_constants
 from chia.util.config import load_config_cli, load_config
 from chia.util.default_root import DEFAULT_ROOT_PATH
-from chia.util.keychain import Keychain
 from chia.wallet.wallet_node import WalletNode
 
 # See: https://bugs.python.org/issue29288
@@ -26,7 +25,6 @@ def service_kwargs_for_wallet(
     root_path: pathlib.Path,
     config: Dict,
     consensus_constants: ConsensusConstants,
-    keychain: Keychain,
 ) -> Dict:
     overrides = config["network_overrides"]["constants"][config["selected_network"]]
     updated_constants = consensus_constants.replace_str_to_bytes(**overrides)
@@ -38,7 +36,6 @@ def service_kwargs_for_wallet(
         config["trusted_peers"]["local_node"] = trusted_peer
     node = WalletNode(
         config,
-        keychain,
         root_path,
         consensus_constants=updated_constants,
     )
@@ -87,8 +84,7 @@ def main() -> None:
         config["selected_network"] = "testnet0"
     else:
         constants = DEFAULT_CONSTANTS
-    keychain = Keychain(testing=False)
-    kwargs = service_kwargs_for_wallet(DEFAULT_ROOT_PATH, config, constants, keychain)
+    kwargs = service_kwargs_for_wallet(DEFAULT_ROOT_PATH, config, constants)
     return run_service(**kwargs)
 
 

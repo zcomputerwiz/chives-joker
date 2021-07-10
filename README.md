@@ -10,6 +10,8 @@
 [**Chives Releases!!! Change Port To 9699 From 9444!!!**](https://github.com/HiveProject2021/chives-blockchain/releases)
 
 ~~~
+The lastest code is locate the dev branch
+
 cd ~/
 
 sudo rm -rf ~/.chives

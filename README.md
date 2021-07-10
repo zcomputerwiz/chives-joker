@@ -9,6 +9,27 @@
 
 [**Chives Releases!!! Change Port To 9699 From 9444!!!**](https://github.com/HiveProject2021/chives-blockchain/releases)
 
+~~~
+cd ~/
+
+sudo rm -rf ~/.chives
+
+sudo rm -rf ~/chives-blockchain
+
+git clone -b dev https://github.com/HiveProject2021/chives-blockchain.git 
+
+cd chives-blockchain
+
+sh install.sh
+
+. ./activate
+
+sh install-gui.sh
+
+tail -f ~/.chives/mainnet/log/debug.log
+
+~~~
+
 ### HI CHIVES MINERS, IF YOU IF TESTING VERSION,PLEASE DELETE THEM ASAP, AND DOWNLOAD THE NEW VERSION.!!!!!!!!
 
 # 1 Name：Chives
@@ -19,7 +40,7 @@
 * Description: Forked from Chia
 * Block time: **18.75 seconds** (same as Chia)
 * Block reward: **200 Chives** (Chia: 2 XCC)
-* Block allocation(Stage 1 & 2): **90% is allocated to miners, and 10% is allocated to the community** (One of the ten blocks (height is a multiple of 10) is allocated to the community)
+* Block allocation(Stage 1 & 2): **90% is allocated to miners, and 10% is allocated to the community**
 * Block allocation(Stage 3): 45% is allocated to miners, 45% is allocated to the master nodes, and 10% is allocated to the community
 * Reward halving: Halving in 3 years, to a block reward of 12.5 Chives from the 13th year (same as Chia)
 * Total issuance: No upper limit (same as Chia)

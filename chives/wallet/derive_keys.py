@@ -24,6 +24,14 @@ def master_sk_to_farmer_sk(master: PrivateKey) -> PrivateKey:
 def master_sk_to_pool_sk(master: PrivateKey) -> PrivateKey:
     return _derive_path(master, [12381, 9699, 1, 0])
 
+def master_sk_to_joker_farmer_sk(master: PrivateKey) -> PrivateKey:
+    return _derive_path(master, [12381, 18444, 0, 0])
+
+
+def master_sk_to_joker_pool_sk(master: PrivateKey) -> PrivateKey:
+    return _derive_path(master, [12381, 18444, 1, 0])
+
+
 
 def master_sk_to_wallet_sk(master: PrivateKey, index: uint32) -> PrivateKey:
     return _derive_path(master, [12381, 9699, 2, index])
@@ -31,6 +39,9 @@ def master_sk_to_wallet_sk(master: PrivateKey, index: uint32) -> PrivateKey:
 
 def master_sk_to_local_sk(master: PrivateKey) -> PrivateKey:
     return _derive_path(master, [12381, 9699, 3, 0])
+
+def master_sk_to_joker_local_sk(master: PrivateKey) -> PrivateKey:
+    return _derive_path(master, [12381, 18444, 3, 0])
 
 
 def master_sk_to_backup_sk(master: PrivateKey) -> PrivateKey:
@@ -43,6 +54,12 @@ def master_sk_to_singleton_owner_sk(master: PrivateKey, wallet_id: uint32) -> Pr
     """
     return _derive_path(master, [12381, 9699, 5, wallet_id])
 
+def master_sk_to_joker_singleton_owner_sk(master: PrivateKey, wallet_id: uint32) -> PrivateKey:
+    """
+    This key controls a singleton on the blockchain, allowing for dynamic pooling (changing pools)
+    """
+    return _derive_path(master, [12381, 18444, 5, wallet_id])
+
 
 def master_sk_to_pooling_authentication_sk(master: PrivateKey, wallet_id: uint32, index: uint32) -> PrivateKey:
     """
@@ -52,11 +69,22 @@ def master_sk_to_pooling_authentication_sk(master: PrivateKey, wallet_id: uint32
     assert wallet_id < 10000
     return _derive_path(master, [12381, 9699, 6, wallet_id * 10000 + index])
 
+def master_sk_to_joker_pooling_authentication_sk(master: PrivateKey, wallet_id: uint32, index: uint32) -> PrivateKey:
+    """
+    This key is used for the farmer to authenticate to the pool when sending partials
+    """
+    assert index < 10000
+    assert wallet_id < 10000
+    return _derive_path(master, [12381, 18444, 6, wallet_id * 10000 + index])
+
 
 async def find_owner_sk(all_sks: List[PrivateKey], owner_pk: G1Element) -> Optional[G1Element]:
     for wallet_id in range(50):
         for sk in all_sks:
             auth_sk = master_sk_to_singleton_owner_sk(sk, uint32(wallet_id))
+            if auth_sk.get_g1() == owner_pk:
+                return auth_sk
+            auth_sk = master_sk_to_joker_singleton_owner_sk(sk, uint32(wallet_id))
             if auth_sk.get_g1() == owner_pk:
                 return auth_sk
     return None
@@ -69,6 +97,9 @@ async def find_authentication_sk(all_sks: List[PrivateKey], authentication_pk: G
         for wallet_id in range(20):
             for sk in all_sks:
                 auth_sk = master_sk_to_pooling_authentication_sk(sk, uint32(wallet_id), uint32(auth_key_index))
+                if auth_sk.get_g1() == authentication_pk:
+                    return auth_sk
+                auth_sk = master_sk_to_joker_pooling_authentication_sk(sk, uint32(wallet_id), uint32(auth_key_index))
                 if auth_sk.get_g1() == authentication_pk:
                     return auth_sk
     return None

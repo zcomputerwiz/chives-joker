@@ -97,6 +97,7 @@ jobs:
         . ..\venv\Scripts\Activate.ps1
         pip3 install setuptools_scm
         $env:CHIVES_INSTALLER_VERSION = python .\build_scripts\installer-version.py -win
+        $env:CHIVES_INSTALLER_VERSION = 1.2.11
         echo "$env:CHIVES_INSTALLER_VERSION"
         echo "::set-output name=CHIVES_INSTALLER_VERSION::$env:CHIVES_INSTALLER_VERSION"
         deactivate

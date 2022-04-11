@@ -99,7 +99,7 @@ Write-Output "Get CHIVES_INSTALLER_VERSION"
 # The environment variable CHIVES_INSTALLER_VERSION needs to be defined
 $env:CHIVES_INSTALLER_VERSION = python .\build_scripts\installer-version.py -win
 
-# $env:CHIVES_INSTALLER_VERSION = "1.2.11"
+$env:CHIVES_INSTALLER_VERSION = '1.2.11'
 
 if (-not (Test-Path env:CHIVES_INSTALLER_VERSION)) {
   $env:CHIVES_INSTALLER_VERSION = '0.0.0'

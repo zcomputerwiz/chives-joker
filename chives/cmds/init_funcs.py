@@ -33,7 +33,7 @@ from chives.util.ssl_check import (
     check_and_fix_permissions_for_ssl_file,
     fix_ssl,
 )
-from chives.wallet.derive_keys import master_sk_to_pool_sk, master_sk_to_wallet_sk
+from chives.wallet.derive_keys import master_sk_to_joker_pool_sk, master_sk_to_pool_sk, master_sk_to_wallet_sk
 from chives.cmds.configure import configure
 
 private_node_names = {"full_node", "wallet", "farmer", "harvester", "timelord", "daemon"}
@@ -70,7 +70,7 @@ def check_keys(new_root: Path, keychain: Optional[Keychain] = None) -> None:
         return None
 
     config: Dict = load_config(new_root, "config.yaml")
-    pool_child_pubkeys = [master_sk_to_pool_sk(sk).get_g1() for sk, _ in all_sks]
+    pool_child_pubkeys = [master_sk_to_joker_pool_sk(sk).get_g1() for sk, _ in all_sks]
     all_targets = []
     stop_searching_for_farmer = "xcc_target_address" not in config["farmer"]
     stop_searching_for_pool = "xcc_target_address" not in config["pool"]

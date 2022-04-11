@@ -16,14 +16,14 @@ name: GitHub Super Linter
 # Start the job on all push #
 #############################
 on:
-  push:
-    branches:
-      - main
-    tags:
-        - '**'
-  pull_request:
-    branches:
-      - '**'
+  # push:
+  #   branches:
+  #     - main
+  #   tags:
+  #       - '**'
+  # pull_request:
+  #   branches:
+  #     - '**'
 
 ###############
 # Set the Job #

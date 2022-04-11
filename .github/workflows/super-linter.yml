@@ -24,6 +24,7 @@ on:
   # pull_request:
   #   branches:
   #     - '**'
+  workflow_dispatch:
 
 ###############
 # Set the Job #
